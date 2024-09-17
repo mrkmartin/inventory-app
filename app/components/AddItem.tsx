@@ -4,8 +4,11 @@ import { AiOutlinePlus } from "react-icons/ai";
 import ProductForm from "./ProductForm";
 import { FormEventHandler, useState } from "react";
 import { addProduct } from "@/api";
+import { useRouter } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
 
 const AddItem = () => {
+  const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [newProductName, setNewProductName] = useState<string>("");
   const [newQuantity, setNewQuantity] = useState(0);
@@ -14,14 +17,15 @@ const AddItem = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     await addProduct({
-      id: "3",
+      id: uuidv4(),
       "product name": newProductName,
-      quantity: 100000,
-      price: 900,
+      quantity: newQuantity,
+      price: newPrice,
     });
     setNewProductName("");
     setNewQuantity(0);
     setNewPrice(0);
+    router.refresh();
   };
 
   return (
@@ -67,7 +71,7 @@ const AddItem = () => {
               </div>
               <input
                 value={newPrice}
-                onChange={(e) => setNewPrice(Number(e.target.value))}
+                onChange={(e) => setNewPrice(parseFloat(e.target.value))}
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered w-full max-w-xs"

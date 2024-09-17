@@ -1,15 +1,15 @@
 import { Products } from "./types/products";
 
-const API_URL = "http://localhost:3001/";
+const API_URL = "http://localhost:3001/products";
 
 export const fetchInventory = async (): Promise<Products[]> => {
-  const response = await fetch(`${API_URL}/products`);
+  const response = await fetch(API_URL, { cache: "no-store" });
   const items = await response.json();
   return items;
 };
 
 export const addProduct = async (product: Products): Promise<Products> => {
-  const res = await fetch(`${API_URL}/products`, {
+  const res = await fetch(API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
