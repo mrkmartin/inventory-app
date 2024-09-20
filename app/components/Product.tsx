@@ -5,16 +5,19 @@ import { Products } from '@/types/products';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import ProductForm from './ProductForm';
 import { editProduct } from '@/api';
+import { useRouter } from 'next/navigation';
 
 interface ProductProps {
   product: Products;
 }
 
 const Product: React.FC<ProductProps> = ({ product }) => {
+  const router = useRouter();
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [formData, setFormData] = useState({
-    name: product['product name'],
+    name: product.productname,
     quantity: product.quantity,
     price: product.price,
   });
@@ -29,34 +32,41 @@ const Product: React.FC<ProductProps> = ({ product }) => {
 
   const handleSubmitEdit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    // await editProduct({
-    //   id: product.id,
-    //   'product name': formData.name,
-    //   quantity: formData.quantity,
-    //   price: formData.price,
-    // });
     try {
       await editProduct({
         id: product.id,
-        'product name': formData.name,
+        productname: formData.name,
         quantity: formData.quantity,
         price: formData.price,
       });
-      // Optionally refetch the product data here or update local state
+      setOpenModalEdit(false);
+      router.refresh();
     } catch (error) {
       console.error('Failed to edit product', error);
     }
+    setOpenModalEdit(false);
+    router.refresh();
+  };
+
+  const handleEditClick = () => {
+    // Set formData to the current product's values when opening the edit modal
+    setFormData({
+      name: product.productname,
+      quantity: product.quantity,
+      price: product.price,
+    });
+    setOpenModalEdit(true);
   };
 
   return (
     <tr key={product.id}>
       <th>{product.id}</th>
-      <td>{product['product name']}</td>
+      <td>{product.productname}</td>
       <td>{product.quantity}</td>
       <td>{`\$${product.price}`}</td>
       <td className='flex gap-5'>
         <FiEdit
-          onClick={() => setOpenModalEdit(true)}
+          onClick={handleEditClick}
           cursor='pointer'
           className='text-blue-500'
           size={25}
@@ -73,7 +83,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
                   value={formData.name}
                   onChange={handleChange}
                   type='text'
-                  name='product name'
+                  name='name'
                   placeholder='Type here'
                   className='input input-bordered w-full max-w-xs'
                 />

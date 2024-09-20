@@ -18,7 +18,7 @@ const AddItem = () => {
     e.preventDefault();
     await addProduct({
       id: uuidv4(),
-      'product name': newProductName,
+      productname: newProductName,
       quantity: newQuantity,
       price: newPrice,
     });
