@@ -1,10 +1,10 @@
 {
   "products": [
     {
-      "id": "1e218990-f708-401d-9eba-a384690a3d82",
-      "productname": "Paper",
-      "quantity": 50,
-      "price": 23
+      "id": "a5e94c2e-e10d-4712-94b2-bbff70df900b",
+      "productname": "Keyboard",
+      "quantity": 200,
+      "price": 3000
     }
   ]
 }
