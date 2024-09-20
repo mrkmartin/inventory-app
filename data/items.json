@@ -1,10 +1,22 @@
 {
   "products": [
     {
-      "id": "a5e94c2e-e10d-4712-94b2-bbff70df900b",
-      "productname": "Keyboard",
-      "quantity": 200,
-      "price": 3000
+      "id": "473acd27-7c32-42d2-91b5-5f9a39647eb8",
+      "productname": "Paper",
+      "quantity": 50055,
+      "price": 300
+    },
+    {
+      "id": "15a181db-8ef6-4bdf-812f-d4b5bc89fbf2",
+      "productname": "Glass",
+      "quantity": 50,
+      "price": 300
+    },
+    {
+      "id": "664a9324-4211-4c76-8cfd-d6497d4822b7",
+      "productname": "gg",
+      "quantity": 12,
+      "price": 12
     }
   ]
 }
