@@ -1,10 +1,22 @@
 {
   "products": [
     {
-      "id": "1",
-      "productname": "Staple",
+      "id": "6db2273f-a574-41c1-a5dd-48e720693910",
+      "productname": "Slippers",
+      "quantity": 10,
+      "price": 100
+    },
+    {
+      "id": "7242510d-9816-4761-b00e-6ddcdef09675",
+      "productname": "Charger",
       "quantity": 200,
-      "price": "500"
+      "price": "100"
+    },
+    {
+      "id": "30b07d64-ca05-461b-aa38-f5be4ac7ce8e",
+      "productname": "Cable",
+      "quantity": 90,
+      "price": 10
     }
   ]
 }

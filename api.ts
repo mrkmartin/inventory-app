@@ -33,3 +33,9 @@ export const editProduct = async (product: Products): Promise<Products> => {
   const updatedProduct = await res.json();
   return updatedProduct;
 };
+
+export const deleteProduct = async (id: string): Promise<void> => {
+  await fetch(`${API_URL}/${id}`, {
+    method: 'DELETE',
+  });
+};

@@ -11,22 +11,48 @@ const AddItem = () => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [newProductName, setNewProductName] = useState<string>('');
-  const [newQuantity, setNewQuantity] = useState(0);
-  const [newPrice, setNewPrice] = useState(0);
+  const [newQuantity, setNewQuantity] = useState<number | string>(0);
+  const [newPrice, setNewPrice] = useState<number | string>(0);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    // Ensure we convert newQuantity and newPrice to numbers before submitting
+    const quantity = Number(newQuantity);
+    const price = Number(newPrice);
+
+    if (isNaN(quantity) || isNaN(price)) {
+      alert('Please enter valid numbers for quantity and price.');
+      return;
+    }
+
     await addProduct({
       id: uuidv4(),
       productname: newProductName,
-      quantity: newQuantity,
-      price: newPrice,
+      quantity,
+      price,
     });
+
     setNewProductName('');
     setNewQuantity(0);
     setNewPrice(0);
     setModalOpen(false);
     router.refresh();
+  };
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      // Update state only if the value is numeric
+      setNewQuantity(value === '' ? '' : Number(value));
+    }
+  };
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Allow only digits, a single period, and up to 2 decimal places
+    if (/^\d*\.?\d{0,2}$/.test(value)) {
+      setNewPrice(value);
+    }
   };
 
   return (
@@ -60,7 +86,7 @@ const AddItem = () => {
               </div>
               <input
                 value={newQuantity}
-                onChange={(e) => setNewQuantity(Number(e.target.value))}
+                onChange={handleQuantityChange}
                 type='text'
                 placeholder='Type here'
                 className='input input-bordered w-full max-w-xs'
@@ -72,7 +98,7 @@ const AddItem = () => {
               </div>
               <input
                 value={newPrice}
-                onChange={(e) => setNewPrice(Number(e.target.value))}
+                onChange={handlePriceChange}
                 type='text'
                 placeholder='Type here'
                 className='input input-bordered w-full max-w-xs'

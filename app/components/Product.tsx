@@ -4,7 +4,7 @@ import React, { FormEventHandler, useState } from 'react';
 import { Products } from '@/types/products';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import ProductForm from './ProductForm';
-import { editProduct } from '@/api';
+import { deleteProduct, editProduct } from '@/api';
 import { useRouter } from 'next/navigation';
 
 interface ProductProps {
@@ -14,7 +14,6 @@ interface ProductProps {
 const Product: React.FC<ProductProps> = ({ product }) => {
   const router = useRouter();
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     name: product.productname,
@@ -56,6 +55,12 @@ const Product: React.FC<ProductProps> = ({ product }) => {
       price: product.price,
     });
     setOpenModalEdit(true);
+  };
+
+  const handleDeleteProduct = async (id: string) => {
+    await deleteProduct(id);
+    setOpenModalDelete(false);
+    router.refresh();
   };
 
   return (
@@ -123,7 +128,31 @@ const Product: React.FC<ProductProps> = ({ product }) => {
             </div>
           </form>
         </ProductForm>
-        <FiTrash2 cursor='pointer' className='text-red-500' size={25} />
+        <FiTrash2
+          onClick={() => setOpenModalDelete(true)}
+          cursor='pointer'
+          className='text-red-500'
+          size={25}
+        />
+        <ProductForm
+          modalOpen={openModalDelete}
+          setModalOpen={setOpenModalDelete}
+        >
+          <h3 className='text-lg'>
+            Are you sure, you want to delete this product?
+          </h3>
+          <div className='modal-action'>
+            <button
+              onClick={() => handleDeleteProduct(product.id)}
+              className='btn'
+            >
+              Yes
+            </button>
+            <button onClick={() => setOpenModalDelete(false)} className='btn'>
+              No
+            </button>
+          </div>
+        </ProductForm>
       </td>
     </tr>
   );
