@@ -1,6 +1,6 @@
-import { Products } from '@/types/products';
-import React from 'react';
-import Product from './Product';
+import { Products } from "@/types/products";
+import React from "react";
+import Product from "./Product";
 
 interface ProductsListProps {
   products: Products[];
@@ -8,8 +8,8 @@ interface ProductsListProps {
 
 const InventoryList: React.FC<ProductsListProps> = ({ products }) => {
   return (
-    <div className='overflow-x-auto'>
-      <table className='table'>
+    <div className="overflow-x-auto">
+      <table className="table">
         {/* head */}
         <thead>
           <tr>
